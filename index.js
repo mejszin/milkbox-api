@@ -10,7 +10,7 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-app.get('/contact', (req, res) => {
+app.get('/playing', (req, res) => {
     const { metadata } = req.query;
     fs.writeFileSync('./metadata.json', JSON.stringify(metadata));
     console.log(JSON.stringify(metadata));
