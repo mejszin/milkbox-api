@@ -11,8 +11,13 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/playing', (req, res) => {
-    const { metadata } = req.query;
-    fs.writeFileSync('./metadata.json', JSON.stringify(metadata));
+    const { artist, track, collection } = req.query;
+    data = {
+        artist: artist,
+        track: track,
+        collection: collection
+    }
+    fs.writeFileSync('./metadata.json', JSON.stringify(data));
     console.log(JSON.stringify(metadata));
     res.status(200).send('Submitted!');
 });
