@@ -11,6 +11,14 @@ const ALBUMS_PATH = './data/albums.json';
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
 var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
 
+function strToKey(str) {
+    return str
+        .toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+        .split(' ')
+        .join('_');
+}
+
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
@@ -28,9 +36,11 @@ app.get('/applicationId', (req, res) => {
 
 app.get('/getAlbum', (req, res) => {
     const { application_id, artist, album } = req.query;
+    artist = strToKey(artist);
+    album  = strToKey(album);
     if (artist in album_data) {
-        if (album in album_data.artist) {
-            res.status(200).send(album_data.artist.album);
+        if (album in album_data[artist]) {
+            res.status(200).send(album_data[artist][album]);
         } else {
             // Missing album
             console.log('Missing album', artist, album);
