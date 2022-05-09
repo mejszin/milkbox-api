@@ -11,6 +11,14 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
+app.get('/checkApplicationId', (req, res) => {
+    const { application_id } = req.query;
+    var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
+    res.status(200).send({
+        exists: (application_id in user_data)
+    });
+});
+
 app.get('/setPlaying', (req, res) => {
     const { application_id, artist, track, collection } = req.query;
     player_data = {
