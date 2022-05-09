@@ -6,9 +6,10 @@ app.use(express.json());
 
 const PORT = 82;
 const USERS_PATH = './data/users.json';
+const ALBUMS_PATH = './data/albums.json';
 
-var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
+var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
 
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
