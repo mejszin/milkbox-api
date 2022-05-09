@@ -7,26 +7,52 @@ app.use(express.json());
 const PORT = 82;
 const USERS_PATH = './data/users.json';
 
+var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
+var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
+
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
 app.get('/applicationId', (req, res) => {
     const { application_id } = req.query;
-    var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
+    if (application_id == undefined) {
+        console.log('application_id is undefined');
+        res.status(204).send();
+    }
     res.status(200).send({
         exists: (application_id in user_data)
     });
 });
 
+app.get('/getAlbum', (req, res) => {
+    const { application_id, artist, album } = req.query;
+    if (artist in album_data) {
+        if (album in album_data.artist) {
+            res.status(200).send(album_data.artist.album);
+        } else {
+            // Missing album
+            console.log('Missing album', artist, album);
+            res.status(204).send();
+        }
+    } else {
+        // Missing artist & album
+        console.log('Missing artist & album', artist, album);
+        res.status(204).send();
+    }
+});
+
 app.get('/setPlaying', (req, res) => {
     const { application_id, artist, track, collection } = req.query;
+    if (application_id == undefined) {
+        console.log('application_id is undefined');
+        res.status(204).send();
+    }
     player_data = {
         artist: artist,
         track: track,
         collection: collection
     }
-    var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
     if (application_id in user_data) {
         user_data[application_id].player = player_data;
     } else {
@@ -41,15 +67,14 @@ app.get('/setPlaying', (req, res) => {
 
 app.get('/getPlaying', (req, res) => {
     const { application_id } = req.query;
-    if (fs.existsSync(USERS_PATH)) {
-        var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
-        if (application_id in user_data) {
-            res.status(200).send(user_data[application_id].player)
-        } else {
-            res.status(200).send({});
-        }
+    if (application_id == undefined) {
+        console.log('application_id is undefined');
+        res.status(204).send();
+    }
+    if (application_id in user_data) {
+        res.status(200).send(user_data[application_id].player)
     } else {
-        res.status(204).send({});
+        res.status(200).send({});
     }
 });
 
