@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 const PORT = 82;
-const USERS_PATH = './users.json';
+const USERS_PATH = './data/users.json';
 
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
