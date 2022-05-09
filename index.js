@@ -11,7 +11,7 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-app.get('/checkApplicationId', (req, res) => {
+app.get('/existsApplicationId', (req, res) => {
     const { application_id } = req.query;
     var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
     res.status(200).send({
