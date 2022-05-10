@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    exports.set = function (req, res) {
+    app.get('/setPlaying', (req, res) => {
         const { application_id, artist, track, collection } = req.query;
         if (application_id == undefined) {
             console.log('application_id is undefined');
@@ -20,9 +20,9 @@ module.exports = function (app) {
         fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
         console.log(application_id, JSON.stringify(player_data));
         res.status(200).send('Submitted!');
-    };
+    });
     
-    exports.get = function (req, res) {
+    app.get('/getPlaying', (req, res) => {
         const { application_id } = req.query;
         if (application_id == undefined) {
             console.log('application_id is undefined');
@@ -33,5 +33,5 @@ module.exports = function (app) {
         } else {
             res.status(200).send({});
         }
-    };
+    });
 }
