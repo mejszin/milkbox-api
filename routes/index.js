@@ -6,8 +6,8 @@ app.use(express.json());
 
 const PORT = 82;
 
-const ROLE_USER = 0x0001;
-const ROLE_ADMIN = 0x0010;
+const ROLE_USER = 0b0001;
+const ROLE_ADMIN = 0b0010;
 
 app.locals.users_path = './data/users.json';
 app.locals.albums_path = './data/albums.json';
