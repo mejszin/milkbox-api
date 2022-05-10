@@ -28,24 +28,24 @@ function writeUncategorizedData(data) {
     console.log(line);
 }
 
-var application_id = require('../routes/application_id.js')(app);
-var album =  require('../routes/album.js')(app);
-var artist =  require('../routes/artist.js')(app);
-var player = require('../routes/player.js')(app);
+require('../routes/application_id.js')(app);
+//var album =  require('../routes/album.js')(app);
+//var artist =  require('../routes/artist.js')(app);
+//var player = require('../routes/player.js')(app);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-app.get('/applicationId', application_id.check);
-app.get('/newApplicationId', application_id.new);
+app.get('/applicationId', module.exports.checkApplicationId);
+app.get('/newApplicationId', module.exports.newApplicationId);
 
-app.get('/getAlbum', album.get);
-
-app.get('/getArtist', artist.get);
-
-app.get('/getPlaying', player.get);
-app.get('/setPlaying', player.set);
+//app.get('/getAlbum', album.get);
+//
+//app.get('/getArtist', artist.get);
+//
+//app.get('/getPlaying', player.get);
+//app.get('/setPlaying', player.set);
 
 app.listen(
     PORT, 
