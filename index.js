@@ -7,6 +7,7 @@ app.use(express.json());
 const PORT = 82;
 const USERS_PATH = './data/users.json';
 const ALBUMS_PATH = './data/albums.json';
+const UNCATEGORIZED_PATH = './data/uncategorized.csv';
 const APPLICATION_ID_LENGTH = 16;
 
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
@@ -18,6 +19,13 @@ function strToKey(str) {
         .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
         .split(' ')
         .join('_');
+}
+
+function writeUncategorizedData(data) {
+    var date = new Date().toISOString();
+    const line = `${date},${data.join(",")}\n`;
+    fs.appendFileSync(UNCATEGORIZED_PATH, line);
+    console.log(line);
 }
 
 app.get('/ping', (req, res) => {
@@ -63,11 +71,13 @@ app.get('/getAlbum', (req, res) => {
             } else {
                 // Missing album
                 console.log('Missing album', artist, album);
+                writeUncategorizedData(`aid=${application_id}`, `artist=${artist}`, `album=${album}`);
                 res.status(204).send();
             }
         } else {
             // Missing artist & album
             console.log('Missing artist & album', artist, album);
+            writeUncategorizedData(`aid=${application_id}`, `artist=${artist}`, `album=${album}`);
             res.status(204).send();
         }
     } else {
