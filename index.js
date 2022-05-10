@@ -25,9 +25,9 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/newApplicationId', (req, res) => {
-    var application_id = null
+    var application_id = null;
     var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    while ((application_id != null) && !(application_id in user_data)) {
+    while ((application_id == null) || (application_id in user_data)) {
         application_id = '';
         for (var i = 0; i < APPLICATION_ID_LENGTH; i++) {
             application_id += char_set.charAt(
