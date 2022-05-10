@@ -7,7 +7,7 @@ module.exports = function (app) {
             res.status(204).send();
         }
         res.status(200).send(
-            (application_id in app.locals.user_data) ? app.locals.user_data[application_id] : { active: false }
+            (application_id in app.locals.user_data) ? app.locals.user_data[application_id] : { enabled: false }
         );
     });
 
