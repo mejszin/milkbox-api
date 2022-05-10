@@ -5,9 +5,9 @@ const app = express();
 app.use(express.json());
 
 const PORT = 82;
-const USERS_PATH = '../data/users.json';
-const ALBUMS_PATH = '../data/albums.json';
-const UNCATEGORIZED_PATH = '../data/uncategorized.csv';
+const USERS_PATH = './data/users.json';
+const ALBUMS_PATH = './data/albums.json';
+const UNCATEGORIZED_PATH = './data/uncategorized.csv';
 const APPLICATION_ID_LENGTH = 16;
 
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
