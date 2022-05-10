@@ -36,7 +36,7 @@ app.locals.writeUserData = function () {
 }
 
 app.locals.isAdmin = function (application_id) {
-    if (validApplicationId(application_id)) {
+    if (app.locals.validApplicationId(application_id)) {
         return (app.locals.user_data[application_id].role & ROLE_ADMIN);
     } else {
         return false;
