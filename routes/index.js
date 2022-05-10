@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 const express = require('express');
-
 const app = express();
 app.use(express.json());
 
@@ -15,11 +14,11 @@ app.locals.user_data = JSON.parse(fs.readFileSync(app.locals.users_path));
 app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
 
 app.locals.strToKey = function (str) {
-    return str
-        .toLowerCase()
-        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
-        .split(' ')
-        .join('_');
+    return str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(' ').join('_');
+}
+
+app.locals.validApplicationId = function (application_id) {
+    return ((application_id != undefined) && (application_id in app.locals.user_data));
 }
 
 app.locals.writeUncategorizedData = function (data) {

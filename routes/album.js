@@ -1,7 +1,7 @@
 module.exports = function (app) {
     app.get('/getAlbum', (req, res) => {
         var { application_id, artist, album } = req.query;
-        if ((application_id != undefined) && (application_id in app.locals.user_data)) {
+        if (app.locals.validApplicationId(application_id)) {
             artist = app.locals.strToKey(artist);
             album  = app.locals.strToKey(album);
             var log_data = [`aid=${application_id}`, `artist=${artist}`, `album=${album}`];

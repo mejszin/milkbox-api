@@ -4,7 +4,6 @@ module.exports = function (app) {
     app.get('/applicationId', (req, res) => {
         const { application_id } = req.query;
         if (application_id == undefined) {
-            console.log('application_id is undefined');
             res.status(204).send();
         }
         res.status(200).send({
