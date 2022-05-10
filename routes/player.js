@@ -9,14 +9,14 @@ exports.set = function (req, res) {
         track: track,
         collection: collection
     }
-    if (application_id in user_data) {
-        user_data[application_id].player = player_data;
+    if (application_id in app.locals.user_data) {
+        app.locals.user_data[application_id].player = player_data;
     } else {
-        user_data[application_id] = {
+        app.locals.user_data[application_id] = {
             player: player_data
         }
     }
-    fs.writeFileSync(USERS_PATH, JSON.stringify(user_data));
+    fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
     console.log(application_id, JSON.stringify(player_data));
     res.status(200).send('Submitted!');
 };
@@ -27,8 +27,8 @@ exports.get = function (req, res) {
         console.log('application_id is undefined');
         res.status(401).send();
     }
-    if (application_id in user_data) {
-        res.status(200).send(user_data[application_id].player)
+    if (application_id in app.locals.user_data) {
+        res.status(200).send(app.locals.user_data[application_id].player)
     } else {
         res.status(200).send({});
     }

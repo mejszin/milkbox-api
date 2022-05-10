@@ -5,12 +5,13 @@ const app = express();
 app.use(express.json());
 
 const PORT = 82;
-const USERS_PATH = './data/users.json';
-const ALBUMS_PATH = './data/albums.json';
-const UNCATEGORIZED_PATH = './data/uncategorized.csv';
 
-var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
-var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
+app.locals.users_path = './data/users.json';
+app.locals.albums_path = './data/albums.json';
+app.locals.uncategorized_path = './data/uncategorized.csv';
+
+app.locals.user_data = JSON.parse(fs.readFileSync(app.locals.users_path));
+app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
 
 function strToKey(str) {
     return str
@@ -23,7 +24,7 @@ function strToKey(str) {
 function writeUncategorizedData(data) {
     var date = new Date().toISOString();
     const line = `${date},${data.join(",")}\n`;
-    fs.appendFileSync(UNCATEGORIZED_PATH, line);
+    fs.appendFileSync(app.locals.uncategorized_path, line);
     console.log(line);
 }
 
