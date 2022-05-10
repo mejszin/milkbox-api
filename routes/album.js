@@ -23,4 +23,15 @@ module.exports = function (app) {
             res.status(401).send();
         }
     });
+    
+    app.get('/setAlbum', (req, res) => {
+        var { application_id, artist, album, year, genres } = req.query;
+        if (app.locals.isAdmin(application_id)) {
+            app.locals.createAlbum(artist, album, year, genres.split(','));
+            res.status(200).send('Submitted!');
+        } else {
+            // Invalid role
+            res.status(401).send();
+        }
+    });
 }

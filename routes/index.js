@@ -56,6 +56,23 @@ app.locals.createArtist = function (artist) {
     app.locals.writeAlbumData();
 }
 
+app.locals.createAlbum = function (artist, album, year, genres) {
+    var artist_id = app.locals.strToKey(artist);
+    var album_id = app.locals.strToKey(album);
+    if (!(artist_id in app.locals.album_data)) {
+        app.locals.album_data[artist_id] = {
+            name: artist,
+            albums: {}
+        }
+    }
+    app.locals.album_data[artist_id][album_id] = {
+        name: album,
+        year: year,
+        genres: genres
+    }
+    app.locals.writeAlbumData();
+}
+
 app.locals.createUser = function (application_id) {
     app.locals.user_data[application_id] = {
         enabled: true,
