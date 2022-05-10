@@ -1,10 +1,10 @@
 module.exports = function (app) {
-    const APPLICATION_ID_LENGTH = 16;
+    APPLICATION_ID_LENGTH = 16;
 
-    var newApplicationId = function (req, res) {
+    app.get('/newApplicationId', (req, res) => {
         var application_id = null;
         var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        while ((application_id == null) || (application_id in app.locals.user_data)) {
+        while ((application_id == null) || (application_id in global.app.locals.user_data)) {
             application_id = '';
             for (var i = 0; i < APPLICATION_ID_LENGTH; i++) {
                 application_id += char_set.charAt(
@@ -15,9 +15,9 @@ module.exports = function (app) {
         res.status(200).send({
             application_id: application_id
         });
-    };
+    });
     
-    var checkApplicationId = function (req, res) {
+    app.get('/applicationId', (req, res) => {
         const { application_id } = req.query;
         if (application_id == undefined) {
             console.log('application_id is undefined');
@@ -26,5 +26,5 @@ module.exports = function (app) {
         res.status(200).send({
             exists: (application_id in app.locals.user_data)
         });
-    };
+    });
 }

@@ -28,7 +28,6 @@ function writeUncategorizedData(data) {
     console.log(line);
 }
 
-require('../routes/application_id.js')(app);
 //var album =  require('../routes/album.js')(app);
 //var artist =  require('../routes/artist.js')(app);
 //var player = require('../routes/player.js')(app);
@@ -37,8 +36,8 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-app.get('/applicationId', module.exports.checkApplicationId);
-app.get('/newApplicationId', module.exports.newApplicationId);
+require('../routes/application_id.js')(app);
+
 
 //app.get('/getAlbum', album.get);
 //
