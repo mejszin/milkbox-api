@@ -27,20 +27,26 @@ function writeUncategorizedData(data) {
     console.log(line);
 }
 
-module.exports = function(app){
-    fs.readdirSync(__dirname).forEach(function(file) {
-        if (file == "index.js") return;
-        var name = file.substr(0, file.indexOf('.'));
-        console.log(`Requiring ./${name}...`)
-        require('./' + name)(app);
-    });
+var application_id = require('./routes/application_id.js');
+var album =  require('./routes/album.js');
+var artist =  require('./routes/artist.js');
+var player = require('./routes/player.js');
 
-    app.get('/ping', (req, res) => {
-        res.status(200).send('Pong!');
-    });
-    
-    app.listen(
-        PORT, 
-        () => console.log(`It's alive on port ${PORT}!`)
-    );
-}
+app.get('/ping', (req, res) => {
+    res.status(200).send('Pong!');
+});
+
+app.get('/applicationId', application_id.check);
+app.get('/newApplicationId', application_id.new);
+
+app.get('/getAlbum', album.get);
+
+app.get('/getArtist', artist.get);
+
+app.get('/getPlaying', player.get);
+app.get('/setPlaying', player.set);
+
+app.listen(
+    PORT, 
+    () => console.log(`It's alive on port ${PORT}!`)
+);
