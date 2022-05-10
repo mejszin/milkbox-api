@@ -1,7 +1,7 @@
 module.exports = function (app) {
     const APPLICATION_ID_LENGTH = 16;
 
-    exports.new = function (req, res) {
+    var new = function (req, res) {
         var application_id = null;
         var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         while ((application_id == null) || (application_id in app.locals.user_data)) {
@@ -17,7 +17,7 @@ module.exports = function (app) {
         });
     };
     
-    exports.check = function (req, res) {
+    var check = function (req, res) {
         const { application_id } = req.query;
         if (application_id == undefined) {
             console.log('application_id is undefined');
