@@ -27,10 +27,10 @@ function writeUncategorizedData(data) {
     console.log(line);
 }
 
-var application_id = require('./routes/application_id.js');
-var album =  require('./routes/album.js');
-var artist =  require('./routes/artist.js');
-var player = require('./routes/player.js');
+var application_id = require('../routes/application_id.js');
+var album =  require('../routes/album.js');
+var artist =  require('../routes/artist.js');
+var player = require('../routes/player.js');
 
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
