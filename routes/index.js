@@ -65,7 +65,7 @@ app.locals.createAlbum = function (artist, album, year, genres) {
             albums: {}
         }
     }
-    app.locals.album_data[artist_id][album_id] = {
+    app.locals.album_data[artist_id].albums[album_id] = {
         name: album,
         year: year,
         genres: genres
