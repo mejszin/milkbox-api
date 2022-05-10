@@ -22,7 +22,6 @@ module.exports = function (app) {
                 );
             }
         }
-        // TODO: Create initial user record
         app.locals.createUser(application_id);
         res.status(200).send({
             application_id: application_id

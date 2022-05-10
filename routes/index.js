@@ -35,12 +35,25 @@ app.locals.writeUserData = function () {
     fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
 }
 
+app.locals.writeAlbumData = function () {
+    fs.writeFileSync(app.locals.albums_path, JSON.stringify(app.locals.album_data));
+}
+
 app.locals.isAdmin = function (application_id) {
     if (app.locals.validApplicationId(application_id)) {
         return !!(app.locals.user_data[application_id].role & ROLE_ADMIN);
     } else {
         return false;
     }
+}
+
+app.locals.createArtist = function (artist) {
+    var artist_id = app.locals.strToKey(artist);
+    app.locals.album_data[artist_id] = {
+        name: artist,
+        albums: {}
+    }
+    app.locals.writeAlbumData();
 }
 
 app.locals.createUser = function (application_id) {

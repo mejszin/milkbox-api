@@ -16,4 +16,15 @@ module.exports = function (app) {
             res.status(401).send();
         }
     });
+
+    app.get('/setArtist', (req, res) => {
+        var { application_id, artist } = req.query;
+        if (app.locals.isAdmin(application_id)) {
+            app.locals.createArtist(artist);
+            res.status(200).send('Submitted!');
+        } else {
+            // Invalid role
+            res.status(401).send();
+        }
+    });
 }
