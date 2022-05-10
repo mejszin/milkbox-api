@@ -2,21 +2,21 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "routes/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haedi-org/api.git"
+    "url": "git+https://github.com/mejszin/milkbox-api"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/haedi-org/api/issues"
+    "url": "https://github.com/mejszin/milkbox-api/issues"
   },
-  "homepage": "https://github.com/haedi-org/api#readme",
+  "homepage": "https://github.com/mejszin/milkbox-api#readme",
   "dependencies": {
     "express": "^4.17.3"
   }
