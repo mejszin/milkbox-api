@@ -34,13 +34,13 @@ module.exports = function(app){
         console.log(`Requiring ./${name}...`)
         require('./' + name)(app);
     });
+
+    app.get('/ping', (req, res) => {
+        res.status(200).send('Pong!');
+    });
+    
+    app.listen(
+        PORT, 
+        () => console.log(`It's alive on port ${PORT}!`)
+    );
 }
-
-app.get('/ping', (req, res) => {
-    res.status(200).send('Pong!');
-});
-
-app.listen(
-    PORT, 
-    () => console.log(`It's alive on port ${PORT}!`)
-);
