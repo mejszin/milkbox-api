@@ -8,11 +8,9 @@ const PORT = 82;
 const USERS_PATH = './data/users.json';
 const ALBUMS_PATH = './data/albums.json';
 const UNCATEGORIZED_PATH = './data/uncategorized.csv';
-const APPLICATION_ID_LENGTH = 16;
 
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
 var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
-
 
 function strToKey(str) {
     return str
@@ -33,6 +31,7 @@ module.exports = function(app){
     fs.readdirSync(__dirname).forEach(function(file) {
         if (file == "index.js") return;
         var name = file.substr(0, file.indexOf('.'));
+        console.log(`Requiring ./${name}...`)
         require('./' + name)(app);
     });
 }

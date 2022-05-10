@@ -1,3 +1,5 @@
+const APPLICATION_ID_LENGTH = 16;
+
 module.exports = function(app){
 
     app.get('/newApplicationId', (req, res) => {
