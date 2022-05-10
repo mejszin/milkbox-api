@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const express = require('express');
 
 const app = express();
@@ -13,7 +14,7 @@ app.locals.uncategorized_path = './data/uncategorized.csv';
 app.locals.user_data = JSON.parse(fs.readFileSync(app.locals.users_path));
 app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
 
-app.locals.strToKey = function(str) {
+app.locals.strToKey = function (str) {
     return str
         .toLowerCase()
         .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
@@ -21,11 +22,15 @@ app.locals.strToKey = function(str) {
         .join('_');
 }
 
-app.locals.writeUncategorizedData = function(data) {
+app.locals.writeUncategorizedData = function (data) {
     var date = new Date().toISOString();
     const line = `${date},${data.join(",")}\n`;
     fs.appendFileSync(app.locals.uncategorized_path, line);
     console.log(line);
+}
+
+app.locals.writeUserData = function () {
+    fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
 }
 
 app.get('/ping', (req, res) => {

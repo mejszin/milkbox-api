@@ -17,8 +17,7 @@ module.exports = function (app) {
                 player: player_data
             }
         }
-        fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
-        console.log(application_id, JSON.stringify(player_data));
+        app.locals.writeUserData();
         res.status(200).send('Submitted!');
     });
     
