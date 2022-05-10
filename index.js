@@ -65,19 +65,18 @@ app.get('/getAlbum', (req, res) => {
     if ((application_id != undefined) && (application_id in user_data)) {
         artist = strToKey(artist);
         album  = strToKey(album);
+        var log_data = [`aid=${application_id}`, `artist=${artist}`, `album=${album}`];
         if (artist in album_data) {
             if (album in album_data[artist]) {
                 res.status(200).send(album_data[artist][album]);
             } else {
                 // Missing album
-                console.log('Missing album', artist, album);
-                writeUncategorizedData(`aid=${application_id}`, `artist=${artist}`, `album=${album}`);
+                writeUncategorizedData(log_data);
                 res.status(204).send();
             }
         } else {
             // Missing artist & album
-            console.log('Missing artist & album', artist, album);
-            writeUncategorizedData(`aid=${application_id}`, `artist=${artist}`, `album=${album}`);
+            writeUncategorizedData(log_data);
             res.status(204).send();
         }
     } else {
