@@ -7,6 +7,7 @@ app.use(express.json());
 const PORT = 82;
 const USERS_PATH = './data/users.json';
 const ALBUMS_PATH = './data/albums.json';
+const APPLICATION_ID_LENGTH = 16;
 
 var user_data = JSON.parse(fs.readFileSync(USERS_PATH));
 var album_data = JSON.parse(fs.readFileSync(ALBUMS_PATH));
@@ -23,6 +24,21 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
+app.get('/newApplicationId', (req, res) => {
+    var application_id = null
+    var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    while ((application_id != null) && !(application_id in user_data)) {
+        application_id = '';
+        for (var i = 0; i < APPLICATION_ID_LENGTH; i++) {
+            application_id += char_set.charAt(
+                Math.floor(Math.random() * char_set.length)
+            );
+        }
+    }
+    res.status(200).send(application_id);
+});
+
+
 app.get('/applicationId', (req, res) => {
     const { application_id } = req.query;
     if (application_id == undefined) {
@@ -35,20 +51,25 @@ app.get('/applicationId', (req, res) => {
 });
 
 app.get('/getAlbum', (req, res) => {
-    const { application_id, artist, album } = req.query;
-    artist = strToKey(artist);
-    album  = strToKey(album);
-    if (artist in album_data) {
-        if (album in album_data[artist]) {
-            res.status(200).send(album_data[artist][album]);
+    var { application_id, artist, album } = req.query;
+    if ((application_id != undefined) && (application_id in user_data)) {
+        artist = strToKey(artist);
+        album  = strToKey(album);
+        if (artist in album_data) {
+            if (album in album_data[artist]) {
+                res.status(200).send(album_data[artist][album]);
+            } else {
+                // Missing album
+                console.log('Missing album', artist, album);
+                res.status(204).send();
+            }
         } else {
-            // Missing album
-            console.log('Missing album', artist, album);
+            // Missing artist & album
+            console.log('Missing artist & album', artist, album);
             res.status(204).send();
         }
     } else {
-        // Missing artist & album
-        console.log('Missing artist & album', artist, album);
+        // Invalid application_id
         res.status(204).send();
     }
 });
