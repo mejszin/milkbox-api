@@ -1,17 +1,17 @@
 module.exports = function (app) {
     APPLICATION_ID_LENGTH = 16;
     
-    app.get('/applicationId', (req, res) => {
+    app.get('/getUser', (req, res) => {
         const { application_id } = req.query;
         if (application_id == undefined) {
             res.status(204).send();
         }
-        res.status(200).send({
-            exists: (application_id in app.locals.user_data)
-        });
+        res.status(200).send(
+            (application_id in app.locals.user_data) ? app.locals.user_data[application_id] : { active: false }
+        );
     });
 
-    app.get('/newApplicationId', (req, res) => {
+    app.get('/newUser', (req, res) => {
         var application_id = null;
         var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         while ((application_id == null) || (application_id in app.locals.user_data)) {
@@ -22,6 +22,8 @@ module.exports = function (app) {
                 );
             }
         }
+        // TODO: Create initial user record
+        app.locals.createUser(application_id);
         res.status(200).send({
             application_id: application_id
         });
