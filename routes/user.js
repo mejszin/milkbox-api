@@ -28,4 +28,14 @@ module.exports = function (app) {
             application_id: application_id
         });
     });
+
+    app.get('/getAdmin', (req, res) => {
+        const { application_id } = req.query;
+        if (application_id == undefined) {
+            res.status(204).send();
+        }
+        res.status(200).send(
+            { admin: app.locals.isAdmin(application_id) }
+        );
+    });
 }

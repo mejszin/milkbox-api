@@ -35,6 +35,14 @@ app.locals.writeUserData = function () {
     fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
 }
 
+app.locals.isAdmin = function (application_id) {
+    if (validApplicationId(application_id)) {
+        return (app.locals.user_data[application_id].role & ROLE_ADMIN);
+    } else {
+        return false;
+    }
+}
+
 app.locals.createUser = function (application_id) {
     app.locals.user_data[application_id] = {
         enabled: true,
