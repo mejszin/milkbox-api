@@ -27,7 +27,7 @@ app.locals.validApplicationId = function (application_id) {
 app.locals.writeUncategorizedData = function (data) {
     var date = new Date().toISOString();
     const line = `${date},${data.join(",")}\n`;
-    fs.appendFileSync(app.locals.uncategorized_path, line);
+    //fs.appendFileSync(app.locals.uncategorized_path, line);
     console.log(line);
 }
 
