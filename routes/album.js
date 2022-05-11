@@ -30,6 +30,7 @@ module.exports = function (app) {
         var { application_id, artist, album, year, genres } = req.query;
         if (app.locals.isAdmin(application_id)) {
             app.locals.createAlbum(artist, album, year, genres.split(','));
+            app.locals.incrementContributionCount(application_id);
             res.status(200).send('Submitted!');
         } else {
             // Invalid role
