@@ -10,11 +10,13 @@ module.exports = function (app) {
                     res.status(200).send(app.locals.album_data[artist][album]);
                 } else {
                     // Missing album
+                    log_data.push('comment="missing album"')
                     app.locals.writeUncategorizedData(log_data);
                     res.status(204).send();
                 }
             } else {
                 // Missing artist & album
+                log_data.push('comment="missing artist & album"')
                 app.locals.writeUncategorizedData(log_data);
                 res.status(204).send();
             }
