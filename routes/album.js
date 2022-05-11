@@ -6,8 +6,8 @@ module.exports = function (app) {
             album  = app.locals.strToKey(album);
             var log_data = [`aid=${application_id}`, `artist=${artist}`, `album=${album}`];
             if (artist in app.locals.album_data) {
-                if (album in app.locals.album_data[artist]) {
-                    res.status(200).send(app.locals.album_data[artist][album]);
+                if (album in app.locals.album_data[artist].albums) {
+                    res.status(200).send(app.locals.album_data[artist].albums[album]);
                 } else {
                     // Missing album
                     log_data.push('comment="missing album"')
