@@ -38,6 +38,10 @@ app.locals.validApplicationId = function (application_id) {
     return ((application_id != undefined) && (application_id in app.locals.user_data));
 }
 
+app.locals.validPostId = function (post_id) {
+    return ((post_id != undefined) && (post_id in app.locals.post_data));
+}
+
 app.locals.writeUncategorizedData = function (data) {
     var date = new Date().toISOString();
     const line = `${date},${data.join(",")}\n`;
@@ -124,9 +128,7 @@ app.locals.setUserAlias = function (application_id, alias) {
 }
 
 app.locals.getUserAlias = function (application_id) {
-    if (!app.locals.validApplicationId(application_id)) {
-        return null;
-    }
+    if (!app.locals.validApplicationId(application_id)) { return null }
     if ('alias' in app.locals.user_data[application_id]) {
         return app.locals.user_data[application_id].alias;
     } else {
@@ -138,6 +140,26 @@ app.locals.incrementContributionCount = function (application_id) {
     if (app.locals.user_data[application_id].enabled) {
         app.locals.user_data[application_id].contributions.count += 1;
         app.locals.writeUserData();
+    }
+}
+
+app.locals.addVoteToPost = function (post_id, application_id) {
+    if (!app.locals.validApplicationId(application_id)) { return null }
+    if (!app.locals.validPostId(post_id)) { return null }
+    if (!app.locals.post_data[post_id].votes.includes(application_id)) {
+        app.locals.post_data[application_id].votes.push(application_id)
+        app.locals.writePostData();
+    }
+}
+
+app.locals.removeVoteFromPost = function (post_id, application_id) {
+    if (!app.locals.validApplicationId(application_id)) { return null }
+    if (!app.locals.validPostId(post_id)) { return null }
+    if (app.locals.post_data[post_id].votes.includes(application_id)) {
+        app.locals.post_data[application_id].votes.splice(
+            app.locals.post_data[application_id].votes.indexOf(application_id), 1
+        );
+        app.locals.writePostData();
     }
 }
 

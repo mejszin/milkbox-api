@@ -44,4 +44,18 @@ module.exports = function (app) {
             res.status(204).send();
         }
     });
+
+    app.get('/setVote', (req, res) => {
+        const { application_id, post_id, status } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            if (status == 'true') {
+                app.locals.addVoteToPost(post_id, application_id);
+            } else {
+                app.locals.removeVoteFromPost(post_id, application_id);
+            }
+            res.status(200).send('Submitted');
+        } else {
+            res.status(204).send();
+        }
+    });
 }
