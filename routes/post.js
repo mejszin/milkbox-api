@@ -31,6 +31,7 @@ module.exports = function (app) {
                         id: app.locals.post_data[key].author,
                         alias: app.locals.getUserAlias(app.locals.post_data[key].author)
                     },
+                    votes: app.locals.post_data[key].votes,
                     posted_at: app.locals.post_data[key].posted_at,
                     contents: app.locals.post_data[key].contents
                 });
