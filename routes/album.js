@@ -37,4 +37,14 @@ module.exports = function (app) {
             res.status(401).send();
         }
     });
+
+    app.get('/getAlbums', (req, res) => {
+        var { application_id } = req.query;
+        if (app.locals.isAdmin(application_id)) {
+            res.status(200).send(app.locals.album_data);
+        } else {
+            // Invalid role
+            res.status(401).send();
+        }
+    });
 }
