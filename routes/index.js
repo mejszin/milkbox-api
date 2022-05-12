@@ -12,13 +12,26 @@ const ROLE_CONTRIBUTOR = 0b0100;
 
 app.locals.users_path = './data/users.json';
 app.locals.albums_path = './data/albums.json';
+app.locals.posts_path = './data/posts.json';
 app.locals.uncategorized_path = './data/uncategorized.csv';
 
 app.locals.user_data = JSON.parse(fs.readFileSync(app.locals.users_path));
 app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
+app.locals.post_data = JSON.parse(fs.readFileSync(app.locals.posts_path));
 
 app.locals.strToKey = function (str) {
     return str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(' ').join('_');
+}
+
+app.locals.generateId = function (length = 16) {
+    var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var id = '';
+    for (var i = 0; i < length; i++) {
+        id += char_set.charAt(
+            Math.floor(Math.random() * char_set.length)
+        );
+    }
+    return id;
 }
 
 app.locals.validApplicationId = function (application_id) {
@@ -86,6 +99,18 @@ app.locals.createUser = function (application_id) {
     app.locals.writeUserData();
 }
 
+app.locals.createPost = function (application_id, title, body) {
+    app.locals.post_data[app.locals.generateId()] = {
+        author: application_id,
+        posted_at: new Date().toISOString(),
+        contents: {
+            title: title,
+            body: body
+        }
+    }
+    app.locals.writePostData();
+}
+
 app.locals.setUserAlias = function (application_id, alias) {
     if (app.locals.user_data[application_id].enabled) {
         app.locals.user_data[application_id].alias = alias;
@@ -108,5 +133,6 @@ require('./user.js')(app);
 require('./artist.js')(app);
 require('./album.js')(app);
 require('./player.js')(app);
+require('./post.js')(app);
 
 app.listen(PORT, () => console.log(`It's alive on port ${PORT}!`));

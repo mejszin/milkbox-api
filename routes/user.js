@@ -13,14 +13,8 @@ module.exports = function (app) {
 
     app.get('/newUser', (req, res) => {
         var application_id = null;
-        var char_set = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         while ((application_id == null) || (application_id in app.locals.user_data)) {
-            application_id = '';
-            for (var i = 0; i < APPLICATION_ID_LENGTH; i++) {
-                application_id += char_set.charAt(
-                    Math.floor(Math.random() * char_set.length)
-                );
-            }
+            application_id = app.locals.generateId(APPLICATION_ID_LENGTH);
         }
         app.locals.createUser(application_id);
         res.status(200).send({
