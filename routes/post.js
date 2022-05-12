@@ -27,9 +27,9 @@ module.exports = function (app) {
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
                 posts.push({
-                    author: app.locals.getUserAlias(post_data.author),
+                    author: app.locals.getUserAlias(app.locals.post_data[key].author),
                     posted_at: app.locals.post_data[key].posted_at,
-                    content: app.locals.post_data[key].content
+                    contents: app.locals.post_data[key].content
                 });
             })
             res.status(200).send(posts);
