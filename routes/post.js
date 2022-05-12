@@ -36,7 +36,10 @@ module.exports = function (app) {
                     contents: app.locals.post_data[key].contents
                 });
             })
-            res.status(200).send(posts);
+            sorted_posts = posts.sort(function(a, b) {
+                return new Date(b.posted_at) - new Date(a.posted_at);
+            });
+            res.status(200).send(sorted_posts.slice(0, 10));
         } else {
             res.status(204).send();
         }
