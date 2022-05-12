@@ -147,7 +147,7 @@ app.locals.addVoteToPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
     if (!app.locals.post_data[post_id].votes.includes(application_id)) {
-        app.locals.post_data[application_id].votes.push(application_id)
+        app.locals.post_data[post_id].votes.push(application_id)
         app.locals.writePostData();
     }
 }
