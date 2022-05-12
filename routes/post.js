@@ -29,7 +29,7 @@ module.exports = function (app) {
                 posts.push({
                     author: app.locals.getUserAlias(app.locals.post_data[key].author),
                     posted_at: app.locals.post_data[key].posted_at,
-                    contents: app.locals.post_data[key].content
+                    contents: app.locals.post_data[key].contents
                 });
             })
             res.status(200).send(posts);
