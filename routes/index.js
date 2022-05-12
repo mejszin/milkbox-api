@@ -53,6 +53,10 @@ app.locals.writeAlbumData = function () {
     fs.writeFileSync(app.locals.albums_path, JSON.stringify(app.locals.album_data));
 }
 
+app.locals.writePostData = function () {
+    fs.writeFileSync(app.locals.posts_path, JSON.stringify(app.locals.post_data));
+}
+
 app.locals.isAdmin = function (application_id) {
     if (app.locals.validApplicationId(application_id)) {
         return !!(app.locals.user_data[application_id].role & ROLE_ADMIN);
