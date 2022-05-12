@@ -53,7 +53,7 @@ module.exports = function (app) {
             } else {
                 app.locals.removeVoteFromPost(post_id, application_id);
             }
-            res.status(200).send('Submitted');
+            res.status(200).send('Submitted!');
         } else {
             res.status(204).send();
         }
