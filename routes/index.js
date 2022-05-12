@@ -86,9 +86,18 @@ app.locals.createUser = function (application_id) {
     app.locals.writeUserData();
 }
 
+app.locals.setUserAlias = function (application_id, alias) {
+    if (app.locals.user_data[application_id].enabled) {
+        app.locals.user_data[application_id].alias = alias;
+        app.locals.writeUserData();
+    }
+}
+
 app.locals.incrementContributionCount = function (application_id) {
-    app.locals.user_data[application_id].contributions.count += 1;
-    app.locals.writeUserData();
+    if (app.locals.user_data[application_id].enabled) {
+        app.locals.user_data[application_id].contributions.count += 1;
+        app.locals.writeUserData();
+    }
 }
 
 app.get('/ping', (req, res) => {

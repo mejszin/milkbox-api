@@ -37,4 +37,13 @@ module.exports = function (app) {
             { admin: app.locals.isAdmin(application_id) }
         );
     });
+
+    app.get('/setAlias', (req, res) => {
+        const { application_id, alias } = req.query;
+        if (application_id == undefined) {
+            res.status(204).send();
+        }
+        app.locals.setUserAlias(application_id, alias);
+        res.status(200).send('Submitted!');
+    });
 }
