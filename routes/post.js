@@ -19,4 +19,20 @@ module.exports = function (app) {
             res.status(204).send();
         }
     });
+
+    app.get('/getRecentPosts', (req, res) => {
+        var posts = [];
+        var post_data = {};
+        const { application_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            Object.keys(app.locals.post_data).forEach(function(key) {
+                post_data = app.locals.post_data[key];
+                post_data.author = app.locals.getUserAlias(post_data.author);
+                posts.push(post_data);
+            })
+            res.status(200).send(posts);
+        } else {
+            res.status(204).send();
+        }
+    });
 }

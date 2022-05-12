@@ -122,6 +122,17 @@ app.locals.setUserAlias = function (application_id, alias) {
     }
 }
 
+app.locals.getUserAlias = function (application_id) {
+    if (!app.locals.validApplicationId(application_id)) {
+        return null;
+    }
+    if ('alias' in app.locals.user_data[application_id]) {
+        return app.locals.user_data[application_id].alias;
+    } else {
+        return 'User';
+    }
+}
+
 app.locals.incrementContributionCount = function (application_id) {
     if (app.locals.user_data[application_id].enabled) {
         app.locals.user_data[application_id].contributions.count += 1;
