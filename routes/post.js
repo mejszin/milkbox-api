@@ -26,9 +26,11 @@ module.exports = function (app) {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
-                post_data = app.locals.post_data[key];
-                post_data.author = app.locals.getUserAlias(post_data.author);
-                posts.push(post_data);
+                posts.push({
+                    author: app.locals.getUserAlias(post_data.author),
+                    posted_at: app.locals.post_data[key].posted_at,
+                    content: app.locals.post_data[key].content
+                });
             })
             res.status(200).send(posts);
         } else {
