@@ -45,6 +45,31 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/getTopPosts', (req, res) => {
+        var posts = [];
+        var post_data = {};
+        const { application_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            Object.keys(app.locals.post_data).forEach(function(key) {
+                posts.push({
+                    author: {
+                        id: app.locals.post_data[key].author,
+                        alias: app.locals.getUserAlias(app.locals.post_data[key].author)
+                    },
+                    votes: app.locals.post_data[key].votes,
+                    posted_at: app.locals.post_data[key].posted_at,
+                    contents: app.locals.post_data[key].contents
+                });
+            })
+            sorted_posts = posts.sort(function(a, b) {
+                return new a.votes.length - b.votes.length;
+            });
+            res.status(200).send(sorted_posts.slice(0, 10));
+        } else {
+            res.status(204).send();
+        }
+    });
+
     app.get('/setVote', (req, res) => {
         const { application_id, post_id, status } = req.query;
         if (app.locals.validApplicationId(application_id)) {
