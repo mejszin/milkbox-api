@@ -71,10 +71,15 @@ module.exports = function (app) {
     app.get('/setVote', (req, res) => {
         const { application_id, post_id, status } = req.query;
         if (app.locals.validApplicationId(application_id)) {
-            if (status == 'true') {
-                app.locals.addVoteToPost(post_id, application_id);
-            } else {
-                app.locals.removeVoteFromPost(post_id, application_id);
+            switch(status) {
+                case 'true':
+                    app.locals.addVoteToPost(post_id, application_id);
+                    break;
+                case 'false':
+                    app.locals.removeVoteFromPost(post_id, application_id);
+                    break;
+                default:
+                    app.locals.togglePostVote(post_id, application_id);
             }
             res.status(200).send('Submitted!');
         } else {
