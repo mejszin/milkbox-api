@@ -1,10 +1,11 @@
 module.exports = function (app) {
     app.get('/setPlaying', (req, res) => {
-        const { application_id, artist, track, collection } = req.query;
+        const { application_id, artist, track, album, collection } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             player_data = {
                 artist: artist,
                 track: track,
+                album: album,
                 collection: collection
             }
             app.locals.user_data[application_id].player = player_data;
