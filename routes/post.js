@@ -26,6 +26,7 @@ module.exports = function (app) {
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
                 posts.push({
+                    id: key,
                     author: {
                         id: app.locals.post_data[key].author,
                         alias: app.locals.getUserAlias(app.locals.post_data[key].author)
@@ -50,6 +51,7 @@ module.exports = function (app) {
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
                 posts.push({
+                    id: key,
                     author: {
                         id: app.locals.post_data[key].author,
                         alias: app.locals.getUserAlias(app.locals.post_data[key].author)
