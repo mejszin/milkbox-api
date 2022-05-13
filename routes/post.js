@@ -60,7 +60,7 @@ module.exports = function (app) {
                 });
             })
             sorted_posts = posts.sort(function(a, b) {
-                return a.votes.length - b.votes.length;
+                return b.votes.length - a.votes.length;
             });
             res.status(200).send(sorted_posts.slice(0, 10));
         } else {
