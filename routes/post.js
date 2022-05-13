@@ -22,7 +22,6 @@ module.exports = function (app) {
 
     app.get('/getRecentPosts', (req, res) => {
         var posts = [];
-        var post_data = {};
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
@@ -47,7 +46,6 @@ module.exports = function (app) {
 
     app.get('/getTopPosts', (req, res) => {
         var posts = [];
-        var post_data = {};
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach(function(key) {
@@ -62,7 +60,7 @@ module.exports = function (app) {
                 });
             })
             sorted_posts = posts.sort(function(a, b) {
-                return new a.votes.length - b.votes.length;
+                return a.votes.length - b.votes.length;
             });
             res.status(200).send(sorted_posts.slice(0, 10));
         } else {
