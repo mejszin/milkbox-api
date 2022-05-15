@@ -7,7 +7,7 @@ module.exports = function (app) {
                 track: track,
                 album: album,
                 collection: collection,
-                paused: paused == undefined ? true : paused
+                paused: (paused == undefined) ? true : (paused == 'true')
             }
             app.locals.user_data[application_id].player = player_data;
             app.locals.writeUserData();
