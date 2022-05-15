@@ -99,7 +99,9 @@ app.locals.createUser = function (application_id) {
     app.locals.user_data[application_id] = {
         enabled: true,
         role: ROLE_USER | ROLE_CONTRIBUTOR,
-        player: {},
+        player: {
+            paused: false
+        },
         contributions: {
             count: 0
         }

@@ -6,7 +6,8 @@ module.exports = function (app) {
                 artist: artist,
                 track: track,
                 album: album,
-                collection: collection
+                collection: collection,
+                paused: true
             }
             app.locals.user_data[application_id].player = player_data;
             app.locals.writeUserData();
@@ -20,6 +21,28 @@ module.exports = function (app) {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             res.status(200).send(app.locals.user_data[application_id].player)
+        } else {
+            res.status(401).send();
+        }
+    });
+
+    app.get('/setPaused', (req, res) => {
+        const { application_id, status } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            switch(status) {
+                case 'true':
+                    app.locals.user_data[application_id].player.paused = true;
+                    break;
+                case 'false':
+                    app.locals.user_data[application_id].player.paused = false;
+                    break;
+                default:
+                    app.locals.user_data[application_id].player.paused = (
+                        !app.locals.user_data[application_id].player.paused
+                    );
+                }
+            app.locals.writeUserData();
+            res.status(200).send('Submitted!')
         } else {
             res.status(401).send();
         }
