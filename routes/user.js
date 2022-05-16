@@ -25,7 +25,7 @@ module.exports = function (app) {
         } else {
             for (var app_id of Object.keys(app.locals.user_data)) {
                 if (user_id == app.locals.user_data[app_id].user_id) {
-                    app.locals.user_data[app_id];
+                    res.status(200).send(app.locals.user_data[app_id]);
                 }
             }
             res.status(200).send({ enabled: false });
