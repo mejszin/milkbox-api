@@ -1,1 +1,1 @@
-![milkbox API](https://milkbox.club/api/shield)
+[![milkbox API](https://milkbox.club/api/shield))](https://milkbox.club/api/shield)
