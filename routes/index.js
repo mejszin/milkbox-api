@@ -6,6 +6,8 @@ app.use(express.json());
 
 const PORT = 82;
 
+const VERSION = 'v0.0.1';
+
 const ROLE_USER        = 0b0001;
 const ROLE_ADMIN       = 0b0010;
 const ROLE_CONTRIBUTOR = 0b0100;
@@ -180,6 +182,10 @@ app.locals.togglePostVote = function (post_id, application_id) {
 
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
+});
+
+app.get('/shield', (req, res) => {
+    res.status(200).send(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
 });
 
 require('./user.js')(app);
