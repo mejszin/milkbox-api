@@ -14,7 +14,7 @@ const ROLE_USER        = 0b0001;
 const ROLE_ADMIN       = 0b0010;
 const ROLE_CONTRIBUTOR = 0b0100;
 
-app.locals.application_path = './data/applications.json';
+app.locals.applications_path = './data/applications.json';
 app.locals.albums_path = './data/albums.json';
 app.locals.posts_path = './data/posts.json';
 app.locals.uncategorized_path = './data/uncategorized.csv';
