@@ -5,6 +5,7 @@ const app = express();
 app.use(express.json());
 
 const axios = require('axios');
+const user = require('./user.js');
 
 const PORT = 82;
 
@@ -207,10 +208,25 @@ app.get('/ping', (req, res) => {
 
 app.get('/badge', (req, res) => {
     var url = `https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`;
-    axios.get(url).then(function (response) {
+    axios.get(url).then((response) => {
         res.setHeader("Content-Type", "image/svg+xml")
         res.status(200).send(response.status == '200' ? response.data : '');
     });
+});
+
+app.get('/getUserBadge', (req, res) => {
+    const { user_id } = req.query;
+    if (!app.locals.validUserId(user_id)) {
+        var alias = encodeURIComponent(app.locals.getUserAlias(user_id));
+        var contributions = getUserById(user_id).contributions.count;
+        var url = `https://img.shields.io/badge/${alias}-${contributions}-ff69b4`;
+        axios.get(url).then((response) => {
+            res.setHeader("Content-Type", "image/svg+xml")
+            res.status(200).send(response.status == '200' ? response.data : '');
+        });
+    } else {
+        res.status(204).send();
+    }
 });
 
 require('./user.js')(app);
