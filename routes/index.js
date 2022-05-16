@@ -14,12 +14,12 @@ const ROLE_USER        = 0b0001;
 const ROLE_ADMIN       = 0b0010;
 const ROLE_CONTRIBUTOR = 0b0100;
 
-app.locals.users_path = './data/users.json';
+app.locals.application_path = './data/applications.json';
 app.locals.albums_path = './data/albums.json';
 app.locals.posts_path = './data/posts.json';
 app.locals.uncategorized_path = './data/uncategorized.csv';
 
-app.locals.user_data = JSON.parse(fs.readFileSync(app.locals.users_path));
+app.locals.application_data = JSON.parse(fs.readFileSync(app.locals.users_path));
 app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
 app.locals.post_data = JSON.parse(fs.readFileSync(app.locals.posts_path));
 
@@ -39,13 +39,13 @@ app.locals.generateId = function (length = 16) {
 }
 
 app.locals.validApplicationId = function (application_id) {
-    return ((application_id != undefined) && (application_id in app.locals.user_data));
+    return ((application_id != undefined) && (application_id in app.locals.application_data));
 }
 
 app.locals.validUserId = function (user_id) {
     console.log('validUserId', user_id)
-    for (var application_id of Object.keys(app.locals.user_data)) {
-        if (app.locals.user_data[application_id].user_id == user_id) { return true }
+    for (var application_id of Object.keys(app.locals.application_data)) {
+        if (app.locals.application_data[application_id].user_id == user_id) { return true }
     }
     return false;
 }
@@ -61,8 +61,8 @@ app.locals.writeUncategorizedData = function (data) {
     console.log(line);
 }
 
-app.locals.writeUserData = function () {
-    fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.user_data));
+app.locals.writeApplicationData = function () {
+    fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.application_data));
 }
 
 app.locals.writeAlbumData = function () {
@@ -75,7 +75,7 @@ app.locals.writePostData = function () {
 
 app.locals.isAdmin = function (application_id) {
     if (app.locals.validApplicationId(application_id)) {
-        return !!(app.locals.user_data[application_id].role & ROLE_ADMIN);
+        return !!(app.locals.application_data[application_id].role & ROLE_ADMIN);
     } else {
         return false;
     }
@@ -108,7 +108,7 @@ app.locals.createAlbum = function (artist, album, year, genres) {
 }
 
 app.locals.createUser = function (application_id, user_id) {
-    app.locals.user_data[application_id] = {
+    app.locals.application_data[application_id] = {
         enabled: true,
         user_id: user_id,
         role: ROLE_USER | ROLE_CONTRIBUTOR,
@@ -124,7 +124,7 @@ app.locals.createUser = function (application_id, user_id) {
 
 app.locals.createPost = function (application_id, title, body) {
     app.locals.post_data[app.locals.generateId()] = {
-        author: app.locals.user_data[application_id].user_id,
+        author: app.locals.application_data[application_id].user_id,
         posted_at: new Date().toISOString(),
         votes: [application_id],
         contents: {
@@ -136,17 +136,17 @@ app.locals.createPost = function (application_id, title, body) {
 }
 
 app.locals.getUserById = function (user_id) {
-    for (var app_id of Object.keys(app.locals.user_data)) {
-        if (app.locals.user_data[app_id].user_id == user_id) { 
-            return app.locals.user_data[app_id];
+    for (var app_id of Object.keys(app.locals.application_data)) {
+        if (app.locals.application_data[app_id].user_id == user_id) { 
+            return app.locals.application_data[app_id];
         }
     }
     return {};
 }
 
 app.locals.setUserAlias = function (application_id, alias) {
-    if (app.locals.user_data[application_id].enabled) {
-        app.locals.user_data[application_id].alias = alias;
+    if (app.locals.application_data[application_id].enabled) {
+        app.locals.application_data[application_id].alias = alias;
         app.locals.writeUserData();
     }
 }
@@ -154,13 +154,13 @@ app.locals.setUserAlias = function (application_id, alias) {
 app.locals.getUserAlias = function (user_id) {
     console.log('getUserAlias', user_id);
     if (!app.locals.validUserId(user_id)) { return null }
-    var user_data = app.locals.getUserById(user_id);
-    return ('alias' in user_data) ? user_data.alias : 'User';
+    var application_data = app.locals.getUserById(user_id);
+    return ('alias' in application_data) ? application_data.alias : 'User';
 }
 
 app.locals.incrementContributionCount = function (application_id) {
-    if (app.locals.user_data[application_id].enabled) {
-        app.locals.user_data[application_id].contributions.count += 1;
+    if (app.locals.application_data[application_id].enabled) {
+        app.locals.application_data[application_id].contributions.count += 1;
         app.locals.writeUserData();
     }
 }
@@ -168,7 +168,7 @@ app.locals.incrementContributionCount = function (application_id) {
 app.locals.addVoteToPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    var user_id = app.locals.user_data[application_id].user_id;
+    var user_id = app.locals.application_data[application_id].user_id;
     if (!app.locals.post_data[post_id].votes.includes(user_id)) {
         app.locals.post_data[post_id].votes.push(user_id)
         app.locals.writePostData();
@@ -178,7 +178,7 @@ app.locals.addVoteToPost = function (post_id, application_id) {
 app.locals.removeVoteFromPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    var user_id = app.locals.user_data[application_id].user_id;
+    var user_id = app.locals.application_data[application_id].user_id;
     if (app.locals.post_data[post_id].votes.includes(user_id)) {
         app.locals.post_data[post_id].votes.splice(
             app.locals.post_data[post_id].votes.indexOf(user_id), 1
@@ -190,7 +190,7 @@ app.locals.removeVoteFromPost = function (post_id, application_id) {
 app.locals.togglePostVote = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    var user_id = app.locals.user_data[application_id].user_id;
+    var user_id = app.locals.application_data[application_id].user_id;
     if (app.locals.post_data[post_id].votes.includes(user_id)) {
         app.locals.post_data[post_id].votes.splice(
             app.locals.post_data[post_id].votes.indexOf(user_id), 1

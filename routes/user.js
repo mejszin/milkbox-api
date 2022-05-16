@@ -9,7 +9,7 @@ module.exports = function (app) {
             res.status(204).send();
         }
         res.status(200).send(
-            (application_id in app.locals.user_data) ? app.locals.user_data[application_id] : { enabled: false }
+            (application_id in app.locals.application_data) ? app.locals.application_data[application_id] : { enabled: false }
         );
     });
     
@@ -20,12 +20,12 @@ module.exports = function (app) {
         }
         if (user_id == undefined) {
             res.status(200).send(
-                (application_id in app.locals.user_data) ? app.locals.user_data[application_id] : { enabled: false }
+                (application_id in app.locals.application_data) ? app.locals.application_data[application_id] : { enabled: false }
             );
         } else {
-            for (var app_id of Object.keys(app.locals.user_data)) {
-                if (user_id == app.locals.user_data[app_id].user_id) {
-                    res.status(200).send(app.locals.user_data[app_id]);
+            for (var app_id of Object.keys(app.locals.application_data)) {
+                if (user_id == app.locals.application_data[app_id].user_id) {
+                    res.status(200).send(app.locals.application_data[app_id]);
                     return
                 }
             }
@@ -35,8 +35,8 @@ module.exports = function (app) {
 
     function getUserIDs() {
         var list = [];
-        for (var app_id of Object.keys(app.locals.user_data)) {
-            list.push(app.locals.user_data[app_id].user_id);
+        for (var app_id of Object.keys(app.locals.application_data)) {
+            list.push(app.locals.application_data[app_id].user_id);
         }
         return list;
     }
@@ -44,7 +44,7 @@ module.exports = function (app) {
     app.get('/newUser', (req, res) => {
         var application_id = null;
         var user_id = null;
-        while ((application_id == null) || (application_id in app.locals.user_data)) {
+        while ((application_id == null) || (application_id in app.locals.application_data)) {
             application_id = app.locals.generateId(APPLICATION_ID_LENGTH);
         }
         while ((user_id == null) || (user_id in getUserIDs())) {
