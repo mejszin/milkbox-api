@@ -196,9 +196,10 @@ function getShield() {
 }
 
 app.get('/shield', (req, res) => {
-    getShield().then((data) => {
-        res.status(200).send(data);
-    });
+    res.sendFile(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
+    //getShield().then((data) => {
+    //    res.status(200).send(data);
+    //});
 });
 
 require('./user.js')(app);
