@@ -19,7 +19,7 @@ app.locals.albums_path = './data/albums.json';
 app.locals.posts_path = './data/posts.json';
 app.locals.uncategorized_path = './data/uncategorized.csv';
 
-app.locals.application_data = JSON.parse(fs.readFileSync(app.locals.users_path));
+app.locals.application_data = JSON.parse(fs.readFileSync(app.locals.applications_path));
 app.locals.album_data = JSON.parse(fs.readFileSync(app.locals.albums_path));
 app.locals.post_data = JSON.parse(fs.readFileSync(app.locals.posts_path));
 
@@ -62,7 +62,7 @@ app.locals.writeUncategorizedData = function (data) {
 }
 
 app.locals.writeApplicationData = function () {
-    fs.writeFileSync(app.locals.users_path, JSON.stringify(app.locals.application_data));
+    fs.writeFileSync(app.locals.applications_path, JSON.stringify(app.locals.application_data));
 }
 
 app.locals.writeAlbumData = function () {
