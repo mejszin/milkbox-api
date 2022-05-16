@@ -15,4 +15,18 @@ module.exports = function (app) {
             res.status(204).send();
         }
     });
+
+    app.get('/getRoles', (req, res) => {
+        const { user_id } = req.query;
+        if (app.locals.validUserId(user_id)) {
+            var roles = [];
+            var role = app.locals.getUserById(user_id).role;
+            if (role & app.locals.ROLE_USER       ) { roles.push('User') };
+            if (role & app.locals.ROLE_ADMIN      ) { roles.push('Admin') };
+            if (role & app.locals.ROLE_CONTRIBUTOR) { roles.push('Contributor') };
+            res.status(200).send(roles);
+        } else {
+            res.status(204).send();
+        }
+    });
 }

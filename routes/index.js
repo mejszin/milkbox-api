@@ -10,9 +10,9 @@ const PORT = 82;
 
 const VERSION = 'v0.0.1';
 
-const ROLE_USER        = 0b0001;
-const ROLE_ADMIN       = 0b0010;
-const ROLE_CONTRIBUTOR = 0b0100;
+app.locals.ROLE_USER        = 0b0001;
+app.locals.ROLE_ADMIN       = 0b0010;
+app.locals.ROLE_CONTRIBUTOR = 0b0100;
 
 app.locals.applications_path = './data/applications.json';
 app.locals.albums_path = './data/albums.json';
@@ -111,7 +111,7 @@ app.locals.createUser = function (application_id, user_id) {
     app.locals.application_data[application_id] = {
         enabled: true,
         user_id: user_id,
-        role: ROLE_USER | ROLE_CONTRIBUTOR,
+        role: app.locals.ROLE_USER | app.locals.ROLE_CONTRIBUTOR,
         player: {
             paused: false
         },
