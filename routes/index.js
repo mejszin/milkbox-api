@@ -186,20 +186,13 @@ app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-function getShield() {
-    return new Promise(resolve => {
-        var url = `https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`;
-        axios.get(url).then(function (response) {
-            resolve(response.status == '200' ? response.data : {});
-        });
-    });
-}
-
 app.get('/shield', (req, res) => {
-    res.sendFile(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
-    //getShield().then((data) => {
-    //    res.status(200).send(data);
-    //});
+    var http = require('http'),
+    request = require('request');
+    http.createServer(function(req, res) {
+        res.setHeader("content-disposition", "attachment; filename=shield.svg");
+        request(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`).pipe(res);
+    }).listen(8080);
 });
 
 require('./user.js')(app);
