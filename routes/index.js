@@ -119,7 +119,7 @@ app.locals.createUser = function (application_id, user_id) {
             count: 0
         }
     }
-    app.locals.writeUserData();
+    app.locals.writeApplicationData();
 }
 
 app.locals.createPost = function (application_id, title, body) {
@@ -147,7 +147,7 @@ app.locals.getUserById = function (user_id) {
 app.locals.setUserAlias = function (application_id, alias) {
     if (app.locals.application_data[application_id].enabled) {
         app.locals.application_data[application_id].alias = alias;
-        app.locals.writeUserData();
+        app.locals.writeApplicationData();
     }
 }
 
@@ -161,7 +161,7 @@ app.locals.getUserAlias = function (user_id) {
 app.locals.incrementContributionCount = function (application_id) {
     if (app.locals.application_data[application_id].enabled) {
         app.locals.application_data[application_id].contributions.count += 1;
-        app.locals.writeUserData();
+        app.locals.writeApplicationData();
     }
 }
 
