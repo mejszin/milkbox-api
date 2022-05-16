@@ -9,8 +9,8 @@ module.exports = function (app) {
                 collection: collection,
                 paused: (paused == undefined) ? true : (paused == 'true')
             }
-            app.locals.user_data[application_id].player = player_data;
-            app.locals.writeUserData();
+            app.locals.application_data[application_id].player = player_data;
+            app.locals.writeApplicationData();
             res.status(200).send('Submitted!');
         } else {
             res.status(401).send();
@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.get('/getPlaying', (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
-            res.status(200).send(app.locals.user_data[application_id].player)
+            res.status(200).send(app.locals.application_data[application_id].player)
         } else {
             res.status(401).send();
         }
@@ -31,17 +31,17 @@ module.exports = function (app) {
         if (app.locals.validApplicationId(application_id)) {
             switch(status) {
                 case 'true':
-                    app.locals.user_data[application_id].player.paused = true;
+                    app.locals.application_data[application_id].player.paused = true;
                     break;
                 case 'false':
-                    app.locals.user_data[application_id].player.paused = false;
+                    app.locals.application_data[application_id].player.paused = false;
                     break;
                 default:
-                    app.locals.user_data[application_id].player.paused = (
-                        !app.locals.user_data[application_id].player.paused
+                    app.locals.application_data[application_id].player.paused = (
+                        !app.locals.application_data[application_id].player.paused
                     );
                 }
-            app.locals.writeUserData();
+            app.locals.writeApplicationData();
             res.status(200).send('Submitted!')
         } else {
             res.status(401).send();

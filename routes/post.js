@@ -70,6 +70,33 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/getUserPosts', (req, res) => {
+        var posts = [];
+        const { application_id, user_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            Object.keys(app.locals.post_data).forEach(function(key) {
+                if (app.locals.post_data[key].author == user_id) {
+                    posts.push({
+                        id: key,
+                        author: {
+                            id: app.locals.post_data[key].author,
+                            alias: app.locals.getUserAlias(app.locals.post_data[key].author)
+                        },
+                        votes: app.locals.post_data[key].votes,
+                        posted_at: app.locals.post_data[key].posted_at,
+                        contents: app.locals.post_data[key].contents
+                    });
+                }
+            })
+            sorted_posts = posts.sort(function(a, b) {
+                return new Date(b.posted_at) - new Date(a.posted_at);
+            });
+            res.status(200).send(sorted_posts.slice(0, 10));
+        } else {
+            res.status(204).send();
+        }
+    });
+
     app.get('/setVote', (req, res) => {
         const { application_id, post_id, status } = req.query;
         if (app.locals.validApplicationId(application_id)) {
