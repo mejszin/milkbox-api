@@ -5,7 +5,6 @@ const app = express();
 app.use(express.json());
 
 const axios = require('axios');
-const user = require('./user.js');
 
 const PORT = 82;
 
