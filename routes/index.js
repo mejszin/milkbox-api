@@ -187,10 +187,6 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/shield', (req, res) => {
-    res.redirect(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
-});
-
-app.get('/shieldTest', (req, res) => {
     var url = `https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`;
     axios.get(url).then(function (response) {
         res.setHeader("Content-Type", "image/svg+xml")
