@@ -4,9 +4,6 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const http = require('http');
-const request = require('request');
-
 const PORT = 82;
 
 const VERSION = 'v0.0.1';
@@ -188,10 +185,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/shield', (req, res) => {
-    http.createServer(function(req, res) {
-        res.setHeader("content-disposition", "attachment; filename=shield.svg");
-        request(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`).pipe(res);
-    }).listen(8080);
+    res.redirect(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
 });
 
 require('./user.js')(app);
