@@ -42,6 +42,13 @@ app.locals.validApplicationId = function (application_id) {
     return ((application_id != undefined) && (application_id in app.locals.user_data));
 }
 
+app.locals.validUserId = function (application_id) {
+    for (var app_id of Object.keys(app.locals.user_data)) {
+        if (app_id == application_id) { return true }
+    }
+    return false;
+}
+
 app.locals.validPostId = function (post_id) {
     return ((post_id != undefined) && (post_id in app.locals.post_data));
 }
@@ -116,7 +123,7 @@ app.locals.createUser = function (application_id, user_id) {
 
 app.locals.createPost = function (application_id, title, body) {
     app.locals.post_data[app.locals.generateId()] = {
-        author: application_id,
+        author: app.locals.user_data[application_id].user_id,
         posted_at: new Date().toISOString(),
         votes: [application_id],
         contents: {
@@ -127,6 +134,13 @@ app.locals.createPost = function (application_id, title, body) {
     app.locals.writePostData();
 }
 
+app.locals.getUserById = function (user_id) {
+    for (var app_id of Object.keys(app.locals.user_data)) {
+        if (app_id == application_id) { return app.locals.user_data[app_id] }
+    }
+    return {};
+}
+
 app.locals.setUserAlias = function (application_id, alias) {
     if (app.locals.user_data[application_id].enabled) {
         app.locals.user_data[application_id].alias = alias;
@@ -134,13 +148,10 @@ app.locals.setUserAlias = function (application_id, alias) {
     }
 }
 
-app.locals.getUserAlias = function (application_id) {
-    if (!app.locals.validApplicationId(application_id)) { return null }
-    if ('alias' in app.locals.user_data[application_id]) {
-        return app.locals.user_data[application_id].alias;
-    } else {
-        return 'User';
-    }
+app.locals.getUserAlias = function (user_id) {
+    if (!app.locals.validUserId(user_id)) { return null }
+    var user_data = app.locals.getUserById(user_id);
+    return ('alias' in user_data) ? user_data.alias : 'User';
 }
 
 app.locals.incrementContributionCount = function (application_id) {
