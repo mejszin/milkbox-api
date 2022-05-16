@@ -17,16 +17,20 @@ module.exports = function (app) {
     });
 
     app.get('/getRoles', (req, res) => {
-        const { user_id } = req.query;
-        if (app.locals.validUserId(user_id)) {
-            var roles = [];
-            var role = app.locals.getUserById(user_id).role;
-            if (role & app.locals.ROLE_USER       ) { roles.push('User') };
-            if (role & app.locals.ROLE_ADMIN      ) { roles.push('Admin') };
-            if (role & app.locals.ROLE_CONTRIBUTOR) { roles.push('Contributor') };
-            res.status(200).send(roles);
+        const { application_id, user_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            if (app.locals.validUserId(user_id)) {
+                var roles = [];
+                var role = app.locals.getUserById(user_id).role;
+                if (role & app.locals.ROLE_USER       ) { roles.push('User') };
+                if (role & app.locals.ROLE_ADMIN      ) { roles.push('Admin') };
+                if (role & app.locals.ROLE_CONTRIBUTOR) { roles.push('Contributor') };
+                res.status(200).send(roles);
+            } else {
+                res.status(204).send();
+            }
         } else {
-            res.status(204).send();
+            res.status(401).send();
         }
     });
 }
