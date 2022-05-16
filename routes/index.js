@@ -193,6 +193,7 @@ app.get('/shield', (req, res) => {
 app.get('/shieldTest', (req, res) => {
     var url = `https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`;
     axios.get(url).then(function (response) {
+        console.log(response);
         res.status(200).send(response.status == '200' ? response.body : {});
     });
 });
