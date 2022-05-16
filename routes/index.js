@@ -153,8 +153,9 @@ app.locals.incrementContributionCount = function (application_id) {
 app.locals.addVoteToPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    if (!app.locals.post_data[post_id].votes.includes(application_id)) {
-        app.locals.post_data[post_id].votes.push(application_id)
+    var user_id = app.locals.user_data[application_id].user_id;
+    if (!app.locals.post_data[post_id].votes.includes(user_id)) {
+        app.locals.post_data[post_id].votes.push(user_id)
         app.locals.writePostData();
     }
 }
@@ -162,9 +163,10 @@ app.locals.addVoteToPost = function (post_id, application_id) {
 app.locals.removeVoteFromPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    if (app.locals.post_data[post_id].votes.includes(application_id)) {
+    var user_id = app.locals.user_data[application_id].user_id;
+    if (app.locals.post_data[post_id].votes.includes(user_id)) {
         app.locals.post_data[post_id].votes.splice(
-            app.locals.post_data[post_id].votes.indexOf(application_id), 1
+            app.locals.post_data[post_id].votes.indexOf(user_id), 1
         );
         app.locals.writePostData();
     }
@@ -173,12 +175,13 @@ app.locals.removeVoteFromPost = function (post_id, application_id) {
 app.locals.togglePostVote = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
-    if (app.locals.post_data[post_id].votes.includes(application_id)) {
+    var user_id = app.locals.user_data[application_id].user_id;
+    if (app.locals.post_data[post_id].votes.includes(user_id)) {
         app.locals.post_data[post_id].votes.splice(
-            app.locals.post_data[post_id].votes.indexOf(application_id), 1
+            app.locals.post_data[post_id].votes.indexOf(user_id), 1
         );
     } else {
-        app.locals.post_data[post_id].votes.push(application_id)
+        app.locals.post_data[post_id].votes.push(user_id)
     }
     app.locals.writePostData();
 }
