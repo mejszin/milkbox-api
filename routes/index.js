@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+const axios = require('axios');
+
 const PORT = 82;
 
 const VERSION = 'v0.0.1';
@@ -186,6 +188,13 @@ app.get('/ping', (req, res) => {
 
 app.get('/shield', (req, res) => {
     res.redirect(`https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`);
+});
+
+app.get('/shieldTest', (req, res) => {
+    var url = `https://img.shields.io/badge/milkbox%20API-${VERSION}-ff69b4`;
+    axios.get(url).then(function (response) {
+        res.status(200).send(response.status == '200' ? response.body : {});
+    });
 });
 
 require('./user.js')(app);
