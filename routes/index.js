@@ -99,9 +99,10 @@ app.locals.createAlbum = function (artist, album, year, genres) {
     app.locals.writeAlbumData();
 }
 
-app.locals.createUser = function (application_id) {
+app.locals.createUser = function (application_id, user_id) {
     app.locals.user_data[application_id] = {
         enabled: true,
+        user_id: user_id,
         role: ROLE_USER | ROLE_CONTRIBUTOR,
         player: {
             paused: false
