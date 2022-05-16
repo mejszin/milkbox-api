@@ -42,9 +42,10 @@ app.locals.validApplicationId = function (application_id) {
     return ((application_id != undefined) && (application_id in app.locals.user_data));
 }
 
-app.locals.validUserId = function (application_id) {
-    for (var app_id of Object.keys(app.locals.user_data)) {
-        if (app_id == application_id) { return true }
+app.locals.validUserId = function (user_id) {
+    console.log('validUserId', user_id)
+    for (var application_id of Object.keys(app.locals.user_data)) {
+        if (app.locals.user_data[application_id].user_id == user_id) { return true }
     }
     return false;
 }
@@ -136,7 +137,9 @@ app.locals.createPost = function (application_id, title, body) {
 
 app.locals.getUserById = function (user_id) {
     for (var app_id of Object.keys(app.locals.user_data)) {
-        if (app_id == application_id) { return app.locals.user_data[app_id] }
+        if (app.locals.user_data[app_id].user_id == user_id) { 
+            return app.locals.user_data[app_id];
+        }
     }
     return {};
 }
@@ -149,6 +152,7 @@ app.locals.setUserAlias = function (application_id, alias) {
 }
 
 app.locals.getUserAlias = function (user_id) {
+    console.log('getUserAlias', user_id);
     if (!app.locals.validUserId(user_id)) { return null }
     var user_data = app.locals.getUserById(user_id);
     return ('alias' in user_data) ? user_data.alias : 'User';
