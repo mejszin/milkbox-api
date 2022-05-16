@@ -75,7 +75,7 @@ app.locals.writePostData = function () {
 
 app.locals.isAdmin = function (application_id) {
     if (app.locals.validApplicationId(application_id)) {
-        return !!(app.locals.application_data[application_id].role & ROLE_ADMIN);
+        return !!(app.locals.application_data[application_id].role & app.locals.ROLE_ADMIN);
     } else {
         return false;
     }
