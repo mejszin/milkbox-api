@@ -251,9 +251,12 @@ app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
     console.log(user_id, req.file, req.body);
-    if (req.file) {
-        fs.renameSync(req.file.path, req.file.destination + user_id + '.png');
+    if (validApplicationId(application_id)) {
+        res.status(200).send('Submitted!');
+    } else {
+        res.status(401).send();
     }
+    
 })
 
 app.listen(PORT, () => console.log(`It's alive on port ${PORT}!`));
