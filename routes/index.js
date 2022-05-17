@@ -3,6 +3,9 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
+const multer  = require('multer')
+const upload = multer({ dest: 'data/uploads/' })
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
@@ -216,9 +219,11 @@ app.get('/badge', (req, res) => {
     });
 });
 
-app.post('/setAvatar', function (req, res) {
-    console.log(req.body);
-    res.json(req.body);
+app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
+    const { application_id, user_id } = req.query;
+    // req.file is the `avatar` file
+    // req.body will hold the text fields, if there were any
+   console.log(user_id, req.file, req.body)
 })
   
 
