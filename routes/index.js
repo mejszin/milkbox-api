@@ -256,7 +256,20 @@ app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
     } else {
         res.status(401).send();
     }
-    
 })
+
+app.get('/getAvatar', function (req, res) {
+    const { application_id, user_id } = req.query;
+    if (app.locals.validApplicationId(application_id)) {
+        var file_path = `./data/uploads/${user_id}.png`;
+        if (fs.fileExistsSync(file_path)) {
+            res.status(200).sendFile(file_path);
+        } else {
+            res.status(204).send();
+        }
+    } else {
+        res.status(200);
+    }
+});
 
 app.listen(PORT, () => console.log(`It's alive on port ${PORT}!`));
