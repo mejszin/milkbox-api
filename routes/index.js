@@ -262,6 +262,7 @@ app.get('/getAvatar', function (req, res) {
     const { application_id, user_id } = req.query;
     if (app.locals.validApplicationId(application_id)) {
         var file_path = __dirname + `/data/uploads/${user_id}.png`;
+        console.log('/getAvatar', file_path);
         if (fs.existsSync(file_path)) {
             res.status(200).sendFile(file_path);
         } else {
