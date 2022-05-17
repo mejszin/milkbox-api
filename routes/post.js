@@ -4,8 +4,8 @@ module.exports = function (app) {
     app.get('/setPost', (req, res) => {
         const { application_id, title, body, tags } = req.query;
         if (app.locals.validApplicationId(application_id)) {
-            tags = (tags == undefined) ? [] : tags.split(",");
-            app.locals.createPost(application_id, title, body, tags);
+            var tag_arr = (tags == undefined) ? [] : tags.split(",");
+            app.locals.createPost(application_id, title, body, tag_arr);
             res.status(200).send('Submitted!');
         } else {
             res.status(204).send();
