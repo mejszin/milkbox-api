@@ -251,7 +251,7 @@ app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
     console.log(user_id, req.file, req.body);
-    if (validApplicationId(application_id)) {
+    if (app.locals.validApplicationId(application_id)) {
         res.status(200).send('Submitted!');
     } else {
         res.status(401).send();
