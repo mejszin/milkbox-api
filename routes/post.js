@@ -34,6 +34,7 @@ module.exports = function (app) {
                     },
                     votes: app.locals.post_data[key].votes,
                     posted_at: app.locals.post_data[key].posted_at,
+                    tags: app.locals.post_data[key].tags,
                     contents: app.locals.post_data[key].contents
                 });
             })
@@ -59,6 +60,7 @@ module.exports = function (app) {
                     },
                     votes: app.locals.post_data[key].votes,
                     posted_at: app.locals.post_data[key].posted_at,
+                    tags: app.locals.post_data[key].tags,
                     contents: app.locals.post_data[key].contents
                 });
             })
@@ -85,6 +87,7 @@ module.exports = function (app) {
                         },
                         votes: app.locals.post_data[key].votes,
                         posted_at: app.locals.post_data[key].posted_at,
+                        tags: app.locals.post_data[key].tags,
                         contents: app.locals.post_data[key].contents
                     });
                 }
