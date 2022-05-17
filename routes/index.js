@@ -231,12 +231,12 @@ const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './data/uploads/');
     },
-    fileFilter: function (req, file, cb) {
+    fileFilter: function (req, file, callback) {
         const { application_id } = req.query;
         const extension = path.extname(file.originalname).toLowerCase();
         const mimetyp = file.mimetype;
         if ((!app.locals.validApplicationId(application_id)) || (extension !== '.png' || mimetyp !== 'image/png')) {
-            cb('error message', true);
+            callback('error message', true);
         }
     },
     filename: function (req, file, callback) {
@@ -270,7 +270,7 @@ app.get('/getAvatar', function (req, res) {
             res.status(204).send();
         }
     } else {
-        res.status(200);
+        res.status(401);
     }
 });
 
