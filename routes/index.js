@@ -3,11 +3,10 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-const multer  = require('multer')
-const upload = multer({ dest: 'data/uploads/' })
+const multer  = require('multer');
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 const axios = require('axios');
 
@@ -218,13 +217,6 @@ app.get('/badge', (req, res) => {
         res.status(200).send(response.status == '200' ? response.data : '');
     });
 });
-
-app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
-    const { application_id, user_id } = req.query;
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-   console.log(user_id, req.file, req.body)
-})
   
 
 require('./application.js')(app);
@@ -233,5 +225,35 @@ require('./artist.js')(app);
 require('./album.js')(app);
 require('./player.js')(app);
 require('./post.js')(app);
+
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './data/uploads/');
+    },
+    fileFilter: function (req, file, cb) {
+        const { application_id } = req.query;
+        const extension = path.extname(file.originalname).toLowerCase();
+        const mimetyp = file.mimetype;
+        if ((!app.locals.validApplicationId(application_id)) || (extension !== '.png' || mimetyp !== 'image/png')) {
+            cb('error message', true);
+        }
+    },
+    filename: function (req, file, callback) {
+        const { user_id } = req.query;
+        callback(null, user_id + '.png');
+    },
+});
+
+const upload = multer({ storage: storage })
+
+app.post('/setAvatar', upload.single('avatar'), function (req, res, next) {
+    const { application_id, user_id } = req.query;
+    // req.file is the `avatar` file
+    // req.body will hold the text fields, if there were any
+    console.log(user_id, req.file, req.body);
+    if (req.file) {
+        fs.renameSync(req.file.path, req.file.destination + user_id + '.png');
+    }
+})
 
 app.listen(PORT, () => console.log(`It's alive on port ${PORT}!`));
