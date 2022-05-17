@@ -2,9 +2,10 @@ module.exports = function (app) {
     APPLICATION_ID_LENGTH = 16;
     
     app.get('/setPost', (req, res) => {
-        const { application_id, title, body } = req.query;
+        const { application_id, title, body, tags } = req.query;
         if (app.locals.validApplicationId(application_id)) {
-            app.locals.createPost(application_id, title, body);
+            tags = (tags == undefined) ? [] : tags.split(",");
+            app.locals.createPost(application_id, title, body, tags);
             res.status(200).send('Submitted!');
         } else {
             res.status(204).send();

@@ -122,11 +122,12 @@ app.locals.createUser = function (application_id, user_id) {
     app.locals.writeApplicationData();
 }
 
-app.locals.createPost = function (application_id, title, body) {
+app.locals.createPost = function (application_id, title, body, tags) {
     app.locals.post_data[app.locals.generateId()] = {
         author: app.locals.application_data[application_id].user_id,
         posted_at: new Date().toISOString(),
         votes: [application_id],
+        tags: tags,
         contents: {
             title: title,
             body: body

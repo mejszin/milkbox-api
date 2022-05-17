@@ -33,4 +33,14 @@ module.exports = function (app) {
             res.status(401).send();
         }
     });
+
+    app.get('/getTopUsers', (req, res) => {
+        const { application_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            // TODO: Get users sorted by contribution count
+            res.status(200).send({});
+        } else {
+            res.status(401).send();
+        }
+    });
 }
