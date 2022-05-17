@@ -106,6 +106,7 @@ module.exports = function (app) {
         const { application_id, tag } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             Object.keys(app.locals.post_data).forEach((key) => {
+                console.log(tag, app.locals.post_data[key].tags);
                 if (tag in app.locals.post_data[key].tags) {
                     posts.push({
                         id: key,
