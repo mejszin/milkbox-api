@@ -2,7 +2,9 @@ const fs = require('fs');
 
 const express = require('express');
 const app = express();
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 const axios = require('axios');
 
@@ -213,6 +215,12 @@ app.get('/badge', (req, res) => {
         res.status(200).send(response.status == '200' ? response.data : '');
     });
 });
+
+app.post('/setAvatar', function (req, res) {
+    console.log(req.body);
+    res.json(req.body);
+})
+  
 
 require('./application.js')(app);
 require('./user.js')(app);
