@@ -19,7 +19,6 @@
   "homepage": "https://github.com/mejszin/milkbox-api#readme",
   "dependencies": {
     "axios": "^0.27.2",
-    "cors": "^2.8.5",
     "express": "^4.17.3",
     "multer": "^1.4.4"
   }
