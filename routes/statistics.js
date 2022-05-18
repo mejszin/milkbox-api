@@ -1,5 +1,5 @@
 module.exports = function (app) {
-    app.post('/setTopArtists', (req, res) => {
+    app.post('/setTopArtists', app.locals.jsonParser, (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             console.log('/setTopArtists', application_id, req.body);
@@ -10,12 +10,7 @@ module.exports = function (app) {
         }
     });
 
-    app.get('/setTopArtists', (req, res) => {
-        console.log(req);
-        res.status(200).send();
-    })
-
-    app.post('/setTopTracks', (req, res) => {
+    app.post('/setTopTracks', app.locals.jsonParser, (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             console.log('/setTopTracks', application_id, req.body);
@@ -26,7 +21,7 @@ module.exports = function (app) {
         }
     });
 
-    app.post('/setTopGenres', (req, res) => {
+    app.post('/setTopGenres', app.locals.jsonParser, (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             console.log('/setTopGenres', application_id, req.body);

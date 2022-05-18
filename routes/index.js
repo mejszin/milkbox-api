@@ -3,11 +3,19 @@ const path = require('path');
 
 const express = require('express');
 const app = express();
+var bodyParser = require('body-parser');
 
 const multer  = require('multer');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// create application/json parser
+// this will only handle application/json requests
+// and will be passed to the route handler as middleware
+
+app.locals.jsonParser = bodyParser.json()
+app.locals.urlencodedParser = bodyParser.urlencoded({ extended: true })
 
 const axios = require('axios');
 
