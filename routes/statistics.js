@@ -10,6 +10,8 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/setTopArtists', (res, req) => {})
+
     app.post('/setTopTracks', (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
