@@ -16,7 +16,7 @@ module.exports = function (app) {
         }
     });
 
-    app.post('/postSetTopTracks', app.locals.cors(), (req, res) => {
+    app.post('/postSetTopTracks', app.locals.cors(), app.locals.headers(), (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             console.log('/postSetTopTracks', application_id, req.body);
