@@ -10,7 +10,7 @@ module.exports = function (app) {
         }
     });
 
-    app.get('/setTopArtists', (res, req) => {
+    app.get('/setTopArtists', (req, res) => {
         res.status(200).send();
     })
 
