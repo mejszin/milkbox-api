@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 const multer  = require('multer');
 
+app.locals.cors = require('cors')
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
