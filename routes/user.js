@@ -16,7 +16,7 @@ module.exports = function (app) {
         }
     });
 
-    app.get('/getRoles', (req, res) => {
+    app.get('/getUserRoles', (req, res) => {
         const { application_id, user_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
             if (app.locals.validUserId(user_id)) {
