@@ -207,6 +207,14 @@ app.locals.togglePostVote = function (post_id, application_id) {
     app.locals.writePostData();
 }
 
+app.locals.setUserStatistic = function (application_id, statistic, data) {
+    if (!('statistics' in app.locals.application_data[application_id])) {
+        app.locals.application_data[application_id].statistics = {}
+    }
+    app.locals.application_data[application_id].statistics[statistic] = data;
+    app.locals.writeApplicationData();
+}
+
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
@@ -219,9 +227,9 @@ app.get('/badge', (req, res) => {
     });
 });
   
-
 require('./application.js')(app);
 require('./user.js')(app);
+require('./statistics.js')(app);
 require('./artist.js')(app);
 require('./album.js')(app);
 require('./player.js')(app);
