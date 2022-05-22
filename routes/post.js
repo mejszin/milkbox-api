@@ -12,6 +12,16 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/deletePost', (req, res) => {
+        const { application_id, post_id } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            app.locals.deletePost(application_id, post_id);
+            res.status(200).send('Submitted!');
+        } else {
+            res.status(401).send();
+        }
+    });
+
     app.get('/getPosts', (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {

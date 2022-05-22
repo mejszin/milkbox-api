@@ -179,6 +179,17 @@ app.locals.incrementContributionCount = function (application_id) {
     }
 }
 
+app.locals.deletePost = function (application_id, post_id) {
+    if ((application_id in app.locals.application_data) && (post_id in app.locals.post_data[post_id])) {
+        var application_data = app.locals.application_data[application_id];
+        var post_data = app.locals.post_data[post_id];
+        var is_admin = (application_data.role & app.locals.ROLE_ADMIN);
+        var is_author = (post_data.author == application_data.user_id);
+        if (is_admin || is_author) { app.locals.post_data.delete(post_id) };
+        app.locals.writePostData();
+    }
+}
+
 app.locals.addVoteToPost = function (post_id, application_id) {
     if (!app.locals.validApplicationId(application_id)) { return null }
     if (!app.locals.validPostId(post_id)) { return null }
