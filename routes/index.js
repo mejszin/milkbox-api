@@ -70,7 +70,7 @@ app.locals.validPostId = function (post_id) {
 app.locals.writeUncategorizedData = function (data) {
     var date = new Date().toISOString();
     const line = `${date},${data.join(",")}\n`;
-    //fs.appendFileSync(app.locals.uncategorized_path, line);
+    fs.appendFileSync(app.locals.uncategorized_path, line);
     console.log(line);
 }
 
@@ -244,6 +244,16 @@ app.get('/badge', (req, res) => {
         res.setHeader("Content-Type", "image/svg+xml")
         res.status(200).send(response.status == '200' ? response.data : '');
     });
+});
+
+app.get('/getUncategorizedData', (req, res) => {
+    const { application_id } = req.query;
+    if (app.locals.validApplicationId(application_id)) {
+        res.attachment(app.locals.uncategorized_path);
+        res.status(200).send();
+    } else {
+        res.status(401).send();
+    }
 });
   
 require('./application.js')(app);
