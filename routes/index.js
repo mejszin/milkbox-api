@@ -158,6 +158,16 @@ app.locals.getUserById = function (user_id) {
     return {};
 }
 
+app.locals.getUsersByAlias = function (alias) {
+    var users = []
+    for (var app_id of Object.keys(app.locals.application_data)) {
+        if (app.locals.application_data[app_id].alias == alias) { 
+            users.push(app.locals.application_data[app_id]);
+        }
+    }
+    return users;
+}
+
 app.locals.setUserAlias = function (application_id, alias) {
     if (app.locals.application_data[application_id].enabled) {
         app.locals.application_data[application_id].alias = alias;

@@ -34,6 +34,20 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/getUsersByAlias', (req, res) => {
+        const { application_id, alias } = req.query;
+        if (app.locals.validApplicationId(application_id)) {
+            var users = app.locals.getUsersByAlias(alias);
+            if (users.length > 0) {
+                res.status(200).send(users);
+            } else {
+                res.status(204).send();
+            }
+        } else {
+            res.status(401).send();
+        }
+    });
+
     app.get('/getTopUsers', (req, res) => {
         const { application_id } = req.query;
         if (app.locals.validApplicationId(application_id)) {
