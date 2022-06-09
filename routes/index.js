@@ -321,4 +321,33 @@ app.get('/getAvatar', function (req, res) {
     }
 });
 
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+
+app.get('/getBarGraph', function (req, res) {
+    const { labels, data, title } = req.query;
+    const width = 300; //px
+    const height = 150; //px
+    const canvasRenderService = new ChartJSNodeCanvas({ width, height });
+    (async () => {
+        const configuration = {
+            type: 'bar',
+            data: {
+              labels: labels.split(','),
+              datasets: [{
+                label: title,
+                data: data.split(',')
+              }]
+            }
+          };
+        // Create outputs
+        const buffer = await canvasRenderService.renderToBuffer(configuration);
+        var img = Buffer.from(buffer, 'base64');
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Length': img.length
+        });
+        res.end(img); 
+    })();
+});
+
 app.listen(PORT, () => console.log(`It's alive on port ${PORT}!`));
